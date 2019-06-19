@@ -41,11 +41,20 @@ public class VkServiceImpl implements VkService {
                     sb.append(line);
                 }
 
-
                 result = new JSONObject(sb.toString())
                         .getJSONArray("response")
                         .getJSONObject(0)
-                        .getString(tag);
+                        .getString(tag)
+
+                        + " " +new JSONObject(sb.toString())
+                        .getJSONArray("response")
+                        .getJSONObject(0)
+                        .getString("tv")
+
+                        + " " + new JSONObject(sb.toString())
+                        .getJSONArray("response")
+                        .getJSONObject(0)
+                        .getString("activities");
 
             } else {
 
@@ -70,7 +79,7 @@ public class VkServiceImpl implements VkService {
 
 
     @Override
-    public String predictShow(List<String> preferences, HashMap<String, ArrayList<String>> map) throws IOException {
+    public String predictShow(List<String> preferences, HashMap<String, ArrayList<String>> map)  {
         Random random = new Random();
         List<String> keys = new ArrayList<>(map.keySet());
         String randomKey = keys.get(random.nextInt(keys.size()));
@@ -79,7 +88,13 @@ public class VkServiceImpl implements VkService {
 
 
 
-        String key = preferences.stream().filter(x -> map.keySet().contains(x)).findFirst().orElse(null);
+        String key = preferences
+                .stream()
+                .filter(
+                x -> map.keySet().contains(x))
+
+                .findFirst()
+                .orElse(null);
         try {
             if (key != null) {
                 return map.get(key).get(rand);
