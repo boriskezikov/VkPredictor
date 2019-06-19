@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.0.BUILD-SNAPSHOT</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>kezikov</groupId>
+	<artifactId>vkprocessor</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>vkprocessor</name>
+	<description>Demo </description>
+
+	<properties>
+		<java.version>11</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.vk.api</groupId>
+			<artifactId>sdk</artifactId>
+			<version>0.5.12</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.vaadin.external.google</groupId>
+			<artifactId>android-json</artifactId>
+			<version>0.0.20131108.vaadin1</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+		<plugin>
+			<groupId>com.github.eirslett</groupId>
+			<artifactId>frontend-maven-plugin</artifactId>
+			<version>1.7.6</version>
+			<configuration>
+				<nodeVersion>v8.11.3</nodeVersion>
+				<npmVersion>6.3.0</npmVersion>
+				<workingDirectory>src/main/webapp/webview</workingDirectory>
+			</configuration>
+			<executions>
+				<execution>
+					<id>install node and npm</id>
+					<goals>
+						<goal>install-node-and-npm</goal>
+					</goals>
+					<phase>generate-resources</phase>
+				</execution>
+				<execution>
+					<id>npm install</id>
+					<goals>
+						<goal>npm</goal>
+					</goals>
+					<phase>generate-resources</phase>
+				</execution>
+				<execution>
+					<id>npm run build</id>
+					<goals>
+						<goal>npm</goal>
+					</goals>
+					<configuration>
+						<arguments>run build</arguments>
+					</configuration>
+					<phase>generate-resources</phase>
+				</execution>
+			</executions>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-war-plugin</artifactId>
+			<version>${maven-war-plugin.version}</version>
+			<configuration>
+				<failOnMissingWebXml>false</failOnMissingWebXml>
+				<warSourceDirectory>target/www/</warSourceDirectory>
+				<webResources>
+					<resource>
+						<directory>src/main/webapp</directory>
+						<includes>
+							<include>WEB-INF/**</include>
+						</includes>
+					</resource>
+				</webResources>
+			</configuration>
+		</plugin>
+
+		<!--— Copy angullar files in *.war&ndash;&gt;-->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-resources-plugin</artifactId>
+			<version>${maven-resources-plugin.version}</version>
+			<executions>
+				<execution>
+					<id>webapp-resources</id>
+					<phase>process-resources</phase>
+					<goals>
+						<goal>copy-resources</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>${project.build.directory}/classes/static/</outputDirectory>
+						<useDefaultDelimiters>false</useDefaultDelimiters>
+						<delimiters>
+							<delimiter>#</delimiter>
+						</delimiters>
+						<resources>
+							<resource>
+								<directory>src/main/webapp/webview/dist/webview</directory>
+							</resource>
+						</resources>
+					</configuration>
+				</execution>
+
+				<execution>
+					<id>docker-resources</id>
+					<phase>process-resources</phase>
+					<goals>
+						<goal>copy-resources</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>target/</outputDirectory>
+						<resources>
+							<resource>
+								<directory>src/main/docker/</directory>
+								<filtering>false</filtering>
+								<excludes>
+									<exclude>**/*.yml</exclude>
+								</excludes>
+							</resource>
+						</resources>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>
