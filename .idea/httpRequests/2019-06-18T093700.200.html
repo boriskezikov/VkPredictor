@@ -1,0 +1,137 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta HTTP-equiv="Cache-Control" content="no-cache">
+    <meta HTTP-EQUIV="Expires" CONTENT="Mon, 01 Jan 1990 00:00:01 GMT">
+
+    <meta http-equiv="Refresh" content="300;url=http://192.168.0.1/relogin.htm">
+    <title>ÐÑÐ¾Ð´</title>
+
+    <link href="/style.css" rel="stylesheet" type="text/css">
+    <script>
+        if (window != window.top) {
+            /* ÑÑÑÐ°Ð½Ð¸ÑÐ° Ð·Ð°Ð³ÑÑÐ¶ÐµÐ½Ð° Ð²Ð¾ ÑÑÐµÐ¹Ð¼ */
+            top.location.href = '/login.htm';
+        }
+        var map2 = ' b^4!Q#:tn),`\\68H0kg[\'/GchyVmFK.1xf;dY<WPv72?B=Nl*T(p]Iq}"~iwROrXoM{U3&ZS_aD$E5>-|s@ACuL9z+%eJj';
+
+        function enc(str) {
+            var encoded = "";
+            for (var i = 0; i < str.length; i++) {
+                var a = str.charCodeAt(i);
+                var b = map2.charAt(a - 32);    // bitwise XOR with any number, e.g. 123
+                encoded += b;
+            }
+            return encoded;
+        }
+
+        function flogin() {
+            var before = document.getElementById("username").value + document.getElementById("password").value;
+            document.getElementById("credit").value = enc(before);
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("form_login").submit();
+        }
+
+
+        function getSearchParameters() {
+            var prmstr = window.location.search.substr(1);
+            return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+        }
+
+        function transformToAssocArray(prmstr) {
+            var params = {};
+            var prmarr = prmstr.split("&");
+            for (var i = 0; i < prmarr.length; i++) {
+                var tmparr = prmarr[i].split("=");
+                params[tmparr[0]] = tmparr[1];
+            }
+            return params;
+        }
+
+        var params = getSearchParameters();
+        var next_link = params.next_link;
+        var wait = 722987;
+        var limit_login = 0;
+
+    </script>
+</head>
+
+
+<BODY>
+<blockquote>
+    <img src="/topbar.png" width="200" height="100" border="0" align="middle" style="margin-top: 12px;">
+    <form action=/boafrm/formLoginCookie id="form_login" method=POST name="login">
+        <div class="data_common data_common_notitle" id="login">
+            <table>
+                <tr>
+                    <th width="25%">ÐÐ²ÐµÐ´Ð¸ÑÐµ Ð¸Ð¼Ñ Ð¿Ð¾Ð»ÑÐ·Ð¾Ð²Ð°ÑÐµÐ»Ñ</th>
+                    <td><input type="text" id="username" name="login"></td>
+
+                </tr>
+                <tr>
+                    <th width="25%">ÐÐ²ÐµÐ´Ð¸ÑÐµ Ð¿Ð°ÑÐ¾Ð»Ñ</th>
+                    <td><input type="password" id="password" name="pass"></td>
+                </tr>
+                <tr>
+                    <td id="login_warning" style="display:none">
+                        <div style="color: red; font-size: 14px;">
+                            ÐÐ½Ð¸Ð¼Ð°Ð½Ð¸Ðµ! ÐÑÐ»Ð¸ Ð¿ÑÐ¾Ð¸Ð·Ð²ÐµÐ´ÐµÐ½Ñ Ð¿Ð¾Ð¿ÑÑÐºÐ¸ Ð²Ð¾Ð¹ÑÐ¸ Ñ
+                            Ð½ÐµÐ¿ÑÐ°Ð²Ð¸Ð»ÑÐ½ÑÐ¼ Ð¸Ð¼ÐµÐ½ÐµÐ¼ Ð¿Ð¾Ð»ÑÐ·Ð¾Ð²Ð°ÑÐµÐ»Ñ Ð¸/Ð¸Ð»Ð¸ Ð¿Ð°ÑÐ¾Ð»ÐµÐ¼!
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="adsl clearfix btn_center">
+                <input id="next_link" type="hidden" name="next_link">
+                <input id="credit" type="hidden" name="credit">
+                <input class="link_bg" type="submit" name="continue" onClick="return flogin();" value="ÐÐ¾Ð¹ÑÐ¸">
+            </div>
+        </div>
+
+        <div class="data_common data_common_notitle" id="wait" style="display:none">
+            <table>
+                <tr>
+                    <td class="data_prompt_td_info"> ÐÑÐµÐ²ÑÑÐµÐ½Ð¾ ÐºÐ¾Ð»Ð¸ÑÐµÑÑÐ²Ð¾ Ð¿Ð¾Ð¿ÑÑÐ¾Ðº!</td>
+                </tr>
+                <tr>
+                    <td class="data_prompt_td_info">ÐÐ¾Ð´Ð¾Ð¶Ð´Ð¸ÑÐµ: <span id="show_sec"></span> ÑÐµÐºÑÐ½Ð´ Ð¸Ð· 60
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+    <script>
+        var count = 0;
+
+        function do_count() {
+
+            if (count == 0) {
+                top.location.href = "/home.htm";
+            }
+            document.getElementById("show_sec").innerHTML = count;
+            if (count > 0) {
+                count--;
+                setTimeout('do_count()', 1000);
+            }
+        }
+
+
+        document.getElementById("next_link").value = next_link;
+        if (limit_login > 0) {
+            document.getElementById("login_warning").style.display = ""
+        }
+
+        if (limit_login > 2) {
+            document.getElementById("wait").style.display = ""
+            document.getElementById("login").style.display = "none"
+            count = 60 - wait;
+            do_count();
+        }
+    </script>
+    <blockquote>
+</body>
+</html>
+
+

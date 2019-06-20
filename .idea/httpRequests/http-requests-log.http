@@ -1,0 +1,18 @@
+GET http://gtr?https://api.vk.com/method/users.get?fields=interests,activities,tv,games&user_ids=boriskezikov&v=5.52&access_token=33f6feb97ac0675193a70230cec83006240c81ef47f0103c51ed451b2aeea8dd43d26598ddc4e33875b15"
+
+<> 2019-06-18T093743.200.html
+
+###
+
+GET http://gtr?https://api.vk.com/method/users.get?fields=interests,activities,tv,games&user_ids=124124124&v=5.52&access_token=33f6feb97ac0675193a70230cec83006240c81ef47f0103c51ed451b2aeea8dd43d26598ddc4e33875b15"
+
+<> 2019-06-18T093719.200.html
+
+###
+
+GET http://gtrp?https://api.vk.com/method/users.get?fields=interests,activities,tv,games&user_ids=124124124&v=5.52&access_token=33f6feb97ac0675193a70230cec83006240c81ef47f0103c51ed451b2aeea8dd43d26598ddc4e33875b15"
+
+<> 2019-06-18T093700.200.html
+
+###
+

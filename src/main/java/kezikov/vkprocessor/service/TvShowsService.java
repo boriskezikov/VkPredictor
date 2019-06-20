@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public interface TvShowsService {
-    NodeList parseXml() throws Exception;
-    HashMap<String,ArrayList<String>> parseCategories(NodeList categoryNodes);
+    ArrayList<NodeList> parseXml() throws Exception;
+    HashMap<String,ArrayList<String>> parseCategories(ArrayList<NodeList> nodes);
 }
 

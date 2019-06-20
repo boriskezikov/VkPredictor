@@ -1,19 +1,17 @@
 package kezikov.vkprocessor;
 
 
+import com.google.gson.Gson;
 import kezikov.vkprocessor.service.TvShowsService;
 import kezikov.vkprocessor.service.TvShowsServiceImpl;
 import kezikov.vkprocessor.service.VkServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
 
 
 @RestController
@@ -21,16 +19,33 @@ import java.util.List;
 @RequestMapping("/vk-test/")
 public class EndPoint {
 
-    private VkServiceImpl vkService;
-    private TvShowsService tvShowsService;
+    private VkServiceImpl vkService = new VkServiceImpl();
 
-    @GetMapping("{vkId}")
-    public String process(@PathVariable("vkId") String vkId) throws Exception {
+    private TvShowsService tvShowsService = new TvShowsServiceImpl();
 
-        NodeList nodeList = tvShowsService.parseXml();
+    @PostMapping
+    public String process(@RequestBody String vkId) throws Exception {
+        long startTime = System.currentTimeMillis();
+        System.out.println("Получил значение с фронта");
+
+        System.out.println(vkId);
+
+
         String vkResp = vkService.sendRequest(vkId, "interests");
         String[] words = vkResp.split("\\s");
-        return vkService.predictShow(Arrays.asList(words), tvShowsService.parseCategories(nodeList));
+
+        ArrayList<NodeList> nodes = tvShowsService.parseXml();
+        HashMap<String, ArrayList<String>> map = tvShowsService.parseCategories(nodes);
+        Gson gson = new Gson();
+
+        String json = gson.toJson(vkService.predictShow(Arrays.asList(words),map));
+
+
+        System.out.println("вернул значение на фронт");
+        long timeSpent = System.currentTimeMillis() - startTime;
+        System.out.println("Запрос выполнялся " + timeSpent / 1000 + " секунд");
+        return json;
+
     }
 
 
